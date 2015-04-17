@@ -7,13 +7,13 @@ var cameraControl;
 var depth = 100;
 var width = 200;
 var margin = 10;
-var MAX_HEIGHT = 6;
+var MAX_HEIGHT = 10;
 
 
 function initThree(){
     //// INIT
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000);
 
     ////RENDERER
     renderer = new THREE.WebGLRenderer();
@@ -23,10 +23,10 @@ function initThree(){
 
 
     // position and point the camera to the center of the scene
-    camera.position.x = 40;
+    camera.position.x = 500;
     camera.position.y = 40;
-    camera.position.z = 50;
-    camera.lookAt(scene.position);
+    camera.position.z = 1000;
+    camera.lookAt(scene);
 
     // add spotlight for the shadows
     var spotLight = new THREE.SpotLight(0xffffff);
@@ -36,7 +36,7 @@ function initThree(){
     spotLight.castShadow = true;
     scene.add(spotLight);
 
-    scene.add(new THREE.AmbientLight(0x252525));
+    scene.add(new THREE.AmbientLight(0xaaaaaa));
 
     // create a cube
     var cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
@@ -57,6 +57,13 @@ function initThree(){
 
     ////EXTRA
     cameraControl = new THREE.OrbitControls(camera);
+
+    // control = new function(){
+    //     this.camX = 40;
+    //     this.camY = 40;
+    //     this.camZ = 50;
+    // };
+    // addControlGui(control);
     addStatsObject();  
 
     render();
@@ -67,6 +74,9 @@ function initThree(){
 
 
 function render() {
+    // camera.position.x = control.camX;
+    // camera.position.y = control.camY;
+    // camera.position.z = control.camZ;
     cameraControl.update();
     stats.update();
     renderer.render(scene, camera);
@@ -74,6 +84,12 @@ function render() {
     requestAnimationFrame(render);
 }
 
+function addControlGui(controlObject) {
+    var gui = new dat.GUI();
+    gui.add(controlObject, 'camX', -50, 50);
+    gui.add(controlObject, 'camY', 0, 200);
+    gui.add(controlObject, 'camZ', -50, 50);
+}
 
 function addStatsObject() {
     stats = new Stats();

@@ -8,6 +8,9 @@ function createPlane3D(depth, width,margin, height){
 	    }
 	}
 
+	console.log("depth : "+depth*margin)
+	console.log("width : "+width*margin)
+
 	for (var z = 0 ; z < depth-1 ; z++) {
 	    for (var x = 0 ; x < width-1 ; x++) {
 	    	//a,b,c and d are the index of the interesting vertices
@@ -40,9 +43,10 @@ function createPlane3D(depth, width,margin, height){
 
     // create the mesh
     var groundMesh = new THREE.Mesh(geometry,mat);
-    groundMesh.translateX(-width/1.5);
-    groundMesh.translateZ(-depth/4);
     groundMesh.name = 'field';
 
+    // var edges = THREE.WireframeHelper(groundMesh,0xffffff)
+
     scene.add(groundMesh);
+    // scene.add(edges);
 }

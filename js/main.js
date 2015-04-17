@@ -4,6 +4,12 @@ var scene;
 var camera;
 var cameraControl;
 
+var depth = 100;
+var width = 200;
+var margin = 10;
+var MAX_HEIGHT = 6;
+
+
 function initThree(){
     //// INIT
     scene = new THREE.Scene();
@@ -15,10 +21,11 @@ function initThree(){
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
 
-    ////CAMERA
-    camera.position.x = 15;
-    camera.position.y = 16;
-    camera.position.z = 13;
+
+    // position and point the camera to the center of the scene
+    camera.position.x = 40;
+    camera.position.y = 40;
+    camera.position.z = 50;
     camera.lookAt(scene.position);
 
     // add spotlight for the shadows
@@ -27,17 +34,23 @@ function initThree(){
     spotLight.shadowCameraNear = 20;
     spotLight.shadowCameraFar = 50;
     spotLight.castShadow = true;
-
     scene.add(spotLight);
+
+    scene.add(new THREE.AmbientLight(0x252525));
 
     // create a cube
     var cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
     var cubeMaterial = new THREE.MeshLambertMaterial({color: 'red'});
     var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
+
+    // position and point the camer
+
     cube.castShadow = true;
 
-    scene.add(cube);
+    createPlane3D(depth, width,margin, MAX_HEIGHT);
+
+    // scene.add(cube);
 
 
     document.body.appendChild(renderer.domElement);
@@ -46,9 +59,7 @@ function initThree(){
     cameraControl = new THREE.OrbitControls(camera);
     addStatsObject();  
 
-
     render();
-
 
     window.addEventListener('resize', handleResize, false);
 
@@ -57,11 +68,8 @@ function initThree(){
 
 function render() {
     cameraControl.update();
-
     stats.update();
-
     renderer.render(scene, camera);
-
 
     requestAnimationFrame(render);
 }

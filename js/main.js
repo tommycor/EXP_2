@@ -8,6 +8,7 @@ var depth = 100;
 var width = 200;
 var margin = 10;
 var MAX_HEIGHT = 10;
+var groundMesh;
 
 
 function initThree(){
@@ -38,17 +39,15 @@ function initThree(){
 
     scene.add(new THREE.AmbientLight(0xaaaaaa));
 
-    // create a cube
-    var cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
-    var cubeMaterial = new THREE.MeshLambertMaterial({color: 'red'});
-    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
+    groundMesh = createPlane3D(depth, width,margin, MAX_HEIGHT);
 
-    // position and point the camer
+    scene.add(groundMesh);
 
-    cube.castShadow = true;
-
-    createPlane3D(depth, width,margin, MAX_HEIGHT);
+    window.addEventListener('mousemove', function(event){
+        var current = getPosition(event, groundMesh);
+        console.log(current);
+    });
 
     // scene.add(cube);
 
@@ -64,7 +63,7 @@ function initThree(){
     //     this.camZ = 50;
     // };
     // addControlGui(control);
-    addStatsObject();  
+    addStatsObject();
 
     render();
 

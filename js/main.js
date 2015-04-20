@@ -9,6 +9,7 @@ var width = 200;
 var margin = 10;
 var MAX_HEIGHT = 10;
 var groundMesh;
+var sizeSelector = 5;
 
 
 function initThree(){
@@ -37,7 +38,7 @@ function initThree(){
     spotLight.castShadow = true;
     scene.add(spotLight);
 
-    scene.add(new THREE.AmbientLight(0xaaaaaa));
+    scene.add(new THREE.AmbientLight(0xffffff));
 
 
     groundMesh = createPlane3D(depth, width,margin, MAX_HEIGHT);
@@ -46,9 +47,26 @@ function initThree(){
 
     window.addEventListener('mousemove', function(event){
         var current = getPosition(event, groundMesh);
-        console.log(current);
+        var selector = {
+            x : {
+                min: current.x - sizeSelector,
+                max: current.x + sizeSelector
+            },
+            z : {
+                min: current.z - sizeSelector,
+                max: current.z + sizeSelector                
+            }
+        }
+        // console.log(groundMesh.geometry.vertices[15]);
+        for (var i = 0 ; i < depth * width ; i++)
+        {
+            if((selector.x.min <= groundMesh.geometry.vertices[i].x && selector.x.max >= groundMesh.geometry.vertices[i].x) && (selector.z.min <= groundMesh.geometry.vertices[i].z && selector.z.max >= groundMesh.geometry.vertices[i].z))
+            {
+                
+            }
+        }
+        // console.log(current);
     });
-
     // scene.add(cube);
 
 

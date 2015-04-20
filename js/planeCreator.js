@@ -3,7 +3,7 @@ function createPlane3D(depth, width,margin, height){
 	var geometry = new THREE.Geometry();
 	for (var z = 0 ; z < depth ; z++) {
 		for (var x = 0 ; x < width ; x++) {
-			var vertex = new THREE.Vector3(x*margin, Math.random()*height,z*margin);
+			var vertex = new THREE.Vector3(x*margin - Math.random()*margin, Math.random()*height,z*margin - Math.random()*margin);
 			geometry.vertices.push(vertex);
 		}
 	}
@@ -34,8 +34,9 @@ function createPlane3D(depth, width,margin, height){
     // geometry.computeFaceNormals();
 
     // setup the material
-    var mat = new THREE.MeshBasicMaterial({
+    var mat = new THREE.MeshLambertMaterial({
         wireframe: true,
+        // color: '#20253B'
         color: 'white'
     });
     mat.vertexColors = THREE.FaceColors;

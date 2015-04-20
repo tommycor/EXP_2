@@ -9,7 +9,9 @@ var width = 200;
 var margin = 10;
 var MAX_HEIGHT = 10;
 var groundMesh;
-var sizeSelector = 5;
+var sizeSelector = 15;
+var looking = new THREE.Vector3( 1000, 0, 500 );
+
 
 
 function initThree(){
@@ -28,7 +30,7 @@ function initThree(){
     camera.position.x = 500;
     camera.position.y = 40;
     camera.position.z = 1000;
-    camera.lookAt(scene);
+    camera.lookAt( looking );
 
     // add spotlight for the shadows
     var spotLight = new THREE.SpotLight(0xffffff);
@@ -62,25 +64,25 @@ function initThree(){
         {
             if((selector.x.min <= groundMesh.geometry.vertices[i].x && selector.x.max >= groundMesh.geometry.vertices[i].x) && (selector.z.min <= groundMesh.geometry.vertices[i].z && selector.z.max >= groundMesh.geometry.vertices[i].z))
             {
-                
+                groundMesh.geometry.vertices[i].y += 5;
+                groundMesh.geometry.verticesNeedUpdate = true;
             }
         }
-        // console.log(current);
     });
-    // scene.add(cube);
+
 
 
     document.body.appendChild(renderer.domElement);
 
     ////EXTRA
-    cameraControl = new THREE.OrbitControls(camera);
+    // cameraControl = new THREE.OrbitControls(camera);
 
-    // control = new function(){
-    //     this.camX = 40;
-    //     this.camY = 40;
-    //     this.camZ = 50;
-    // };
-    // addControlGui(control);
+    control = new function(){
+        this.camX = 40;
+        this.camY = 40;
+        this.camZ = 50;
+    };
+    addControlGui(control);
     addStatsObject();
 
     render();
@@ -91,10 +93,12 @@ function initThree(){
 
 
 function render() {
-    // camera.position.x = control.camX;
-    // camera.position.y = control.camY;
-    // camera.position.z = control.camZ;
-    cameraControl.update();
+    camera.position.x = control.camX;
+    camera.position.y = control.camY;
+    camera.position.z = control.camZ;
+    // cameraControl.update();
+    camera.lookAt( looking );
+
     stats.update();
     renderer.render(scene, camera);
 
@@ -103,9 +107,9 @@ function render() {
 
 function addControlGui(controlObject) {
     var gui = new dat.GUI();
-    gui.add(controlObject, 'camX', -50, 50);
-    gui.add(controlObject, 'camY', 0, 200);
-    gui.add(controlObject, 'camZ', -50, 50);
+    gui.add(controlObject, 'camX', -1000, 1000);
+    gui.add(controlObject, 'camY', 0, 1000);
+    gui.add(controlObject, 'camZ', -1000, 1000);
 }
 
 function addStatsObject() {

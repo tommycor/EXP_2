@@ -4,12 +4,14 @@ function createPlane3D(depth, width,margin, height){
 	for (var z = 0 ; z < depth ; z++) {
 		for (var x = 0 ; x < width ; x++) {
 			var vertex = new THREE.Vector3(x*margin - Math.random()*margin, Math.random()*height,z*margin - Math.random()*margin);
+			// var vertex = new THREE.Vector3(x*margin - Math.random()*margin, 0,z*margin - Math.random()*margin);
 			geometry.vertices.push(vertex);
 		}
 	}
 
 	console.log("depth : "+depth*margin);
 	console.log("width : "+width*margin);
+
 
 	for (var z = 0 ; z < depth-1 ; z++) {
 		for (var x = 0 ; x < width-1 ; x++) {
